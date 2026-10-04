@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="EKO builds AI phone agents on ElevenLabs for Icelandic businesses: every call answered in Icelandic or English, bookings taken, and your team freed up for the work that matters.">
+<meta name="theme-color" content="#0A0D0F">
+<meta property="og:title" content="EKO Voice Agents">
+<meta property="og:description" content="AI phone agents for Icelandic businesses, built on ElevenLabs. Talk to our demo agent Sól live.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230A0D0F'/%3E%3Cg fill='%236FE3D6'%3E%3Crect x='5' y='13' width='4' height='6' rx='2'/%3E%3Crect x='11' y='7' width='4' height='18' rx='2'/%3E%3Crect x='17' y='10' width='4' height='12' rx='2'/%3E%3Crect x='23' y='14' width='4' height='4' rx='2'/%3E%3C/g%3E%3C/svg%3E">
+<title>EKO Voice Agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cinematic scroll story on basalt black — full-bleed bands on a 1240px measure; a sticky call stage and a horizontal use-case rail carry the motion. Cyan = the agent, ember = your team. */
+:root{
+  color-scheme: dark;
+  --basalt:#0A0D0F;
+  --basalt-2:#101619;
+  --basalt-3:#172024;
+  --line:#243136;
+  --frost:#ECF1EF;
+  --mist:#97A4A7;
+  --dim:#56636A;
+  --agent:#6FE3D6;
+  --agent-ink:#04201D;
+  --human:#FFB061;
+  --display:"Archivo","Arial Black","Helvetica Neue",Arial,sans-serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --hdr:64px;
+  --measure:1240px;
+  --fs-giant:clamp(2.8rem,9.4vw,7.6rem);
+  --fs-h2:clamp(2rem,5vw,4.1rem);
+  --fs-lead:clamp(1.08rem,1.5vw,1.28rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--basalt);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--basalt);color:var(--frost);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+::selection{background:var(--agent);color:var(--agent-ink)}
+a{color:inherit}
+[id]{scroll-margin-top:calc(var(--hdr) + 16px)}
+:focus-visible{outline:2px solid var(--agent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--measure);margin-inline:auto;padding-inline:clamp(16px,4vw,48px)}
+.label{font:500 .74rem/1.2 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+.eyebrow{display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--agent);border-radius:2px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.h2{font:800 var(--fs-h2)/.95 var(--display);font-stretch:125%;text-transform:uppercase;letter-spacing:-.01em}
+.lead{font-size:var(--fs-lead);line-height:1.55;color:var(--mist);max-width:62ch}
+.section{padding-block:clamp(84px,11vw,150px)}
+.sec-head{display:grid;gap:22px;margin-bottom:clamp(36px,5vw,64px)}
+.agent{color:var(--agent)}
+.human{color:var(--human)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 1rem/1 var(--body);padding:1rem 1.45rem;border-radius:999px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .2s ease,background-color .2s ease,border-color .2s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--agent);color:var(--agent-ink)}
+.btn-primary:hover{background:color-mix(in srgb,var(--agent) 86%,var(--frost))}
+.btn-ghost{border-color:var(--line);color:var(--frost);background:transparent}
+.btn-ghost:hover{border-color:var(--mist)}
+.btn svg{width:16px;height:16px}
+
+/* Header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--hdr);background:color-mix(in srgb,var(--basalt) 80%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.hdr.is-scrolled{border-bottom-color:var(--line)}
+.hdr .wrap{height:100%;display:flex;align-items:center;gap:28px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.35rem/1 var(--display);font-stretch:125%;letter-spacing:.02em}
+.logo svg{width:26px;height:20px}
+.logo rect{fill:var(--agent)}
+.nav{display:flex;gap:26px;margin-left:auto}
+.nav a{font-size:.95rem;color:var(--mist);text-decoration:none}
+.nav a:hover{color:var(--frost)}
+.hdr .btn{padding:.7rem 1.1rem;font-size:.92rem}
+@media (max-width:860px){.nav{display:none}.hdr .btn{margin-left:auto}}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding-block:clamp(48px,7vw,96px) clamp(56px,8vw,110px)}
+.orb-wrap{position:absolute;right:-8%;top:-6%;width:min(78vw,900px);aspect-ratio:1;pointer-events:none;max-width:100%}
+.orb-wrap canvas{width:100%;height:100%;display:block}
+.hero .wrap{position:relative}
+.hero h1{font:800 var(--fs-giant)/.88 var(--display);font-stretch:125%;text-transform:uppercase;letter-spacing:-.015em;margin-block:26px 40px}
+.hero h1 span{display:block;will-change:transform}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,72px);align-items:start}
+.hero-copy{display:grid;gap:30px}
+.hero-copy .lead{color:var(--frost);opacity:.88}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.proof{display:flex;flex-wrap:wrap;gap:8px 22px;font:500 .8rem/1.4 var(--mono);color:var(--mist)}
+.proof span{display:flex;align-items:center;gap:8px}
+.proof span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--agent)}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.orb-wrap{right:-30%;top:4%;width:120vw}}
+
+/* Live call card */
+.callcard{position:relative;background:linear-gradient(180deg,color-mix(in srgb,var(--basalt-2) 92%,transparent),color-mix(in srgb,var(--basalt) 92%,transparent));border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:18px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 40px 80px -40px color-mix(in srgb,var(--agent) 30%,transparent)}
+.cc-top{display:flex;align-items:center;gap:10px;font:500 .74rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.live{display:flex;align-items:center;gap:8px;color:var(--agent)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--agent);box-shadow:0 0 0 0 color-mix(in srgb,var(--agent) 60%,transparent);animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{to{box-shadow:0 0 0 10px color-mix(in srgb,var(--agent) 0%,transparent)}}
+.cc-top .t{margin-left:auto;font-variant-numeric:tabular-nums}
+.cc-who{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.cc-who b{font:700 1.05rem/1.2 var(--body)}
+.cc-who span{font:400 .82rem/1.2 var(--mono);color:var(--mist)}
+.wave{display:flex;align-items:center;gap:3px;height:46px}
+.wave span{flex:1;height:100%;border-radius:3px;background:var(--agent);opacity:.85;transform-origin:center;animation:wv 1.2s ease-in-out infinite alternate;animation-delay:calc(var(--i) * -.13s);transform:scaleY(.25)}
+.wave span:nth-child(3n){animation-duration:.9s}
+.wave span:nth-child(4n+1){animation-duration:1.5s}
+@keyframes wv{0%{transform:scaleY(.12)}50%{transform:scaleY(.7)}100%{transform:scaleY(.3)}}
+.cc-quote{display:grid;gap:6px;border-left:2px solid var(--agent);padding-left:14px}
+.cc-quote p:first-child{font-size:1.02rem}
+.cc-quote p:last-child{font-size:.86rem;color:var(--mist)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 .74rem/1 var(--mono);padding:8px 10px;border-radius:8px;border:1px solid var(--line);color:var(--mist);background:var(--basalt)}
+.chip b{color:var(--agent);font-weight:500}
+.chip.h b{color:var(--human)}
+
+/* Marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding-block:22px}
+.mq-track{display:flex;width:max-content;animation:mq 46s linear infinite}
+.mq-track ul{display:flex;align-items:center;gap:34px;list-style:none;margin:0;padding:0 34px 0 0}
+.mq-track li{display:flex;align-items:center;gap:34px;font:700 clamp(1.1rem,2.2vw,1.7rem)/1 var(--display);font-stretch:112%;text-transform:uppercase;color:var(--mist);white-space:nowrap}
+.mq-track li::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--agent)}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.mq-track{animation:none}.wave span,.live i{animation:none}}
+
+/* Statement */
+.statement-text{font:650 clamp(1.6rem,3.5vw,3rem)/1.22 var(--display);font-stretch:100%;letter-spacing:-.01em;max-width:24ch;max-width:30ch}
+.statement-text em{font-style:normal;color:var(--agent)}
+.reveal-on .w{color:var(--dim);transition:color .25s ease}
+.reveal-on .w.on{color:var(--frost)}
+.reveal-on .w.q.on{color:var(--agent)}
+.statement .after{margin-top:40px;max-width:52ch}
+
+/* Call demo */
+.call-intro{padding-bottom:0}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font:500 .78rem/1 var(--mono);color:var(--mist)}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:12px;height:12px;border-radius:4px;border:1.5px solid var(--agent)}
+.legend i.h{border-color:var(--human)}
+.call{position:relative;padding-block:28px clamp(84px,10vw,140px)}
+.call-stage{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px}
+.call.is-scrub{padding-block:0;margin-block:28px clamp(84px,10vw,140px)}
+.call.is-scrub > .wrap{height:100%}
+.call.is-scrub .call-stage{position:sticky;top:calc(var(--hdr) + 12px);height:calc(100vh - var(--hdr) - 24px);height:calc(100svh - var(--hdr) - 24px)}
+.panel{background:var(--basalt-2);border:1px solid var(--line);border-radius:20px;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.ph{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ph .live{font:500 .72rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.ph .who-line{font:600 .95rem/1.2 var(--body)}
+.ph .clock{margin-left:auto;font:500 .9rem/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--frost)}
+.now{display:none;padding:10px 18px;border-bottom:1px solid var(--line);font:500 .76rem/1.3 var(--mono);color:var(--mist)}
+.now b{color:var(--agent);font-weight:500}
+.progress{height:2px;background:var(--line)}
+.progress i{display:block;height:100%;width:var(--p,100%);background:var(--agent);transition:width .3s ease}
+.tx-window{position:relative;flex:1;min-height:0}
+.call.is-scrub .tx-window{overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 9%,#000 84%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 9%,#000 84%,transparent 100%)}
+.tx-list{list-style:none;margin:0;padding:18px 0 40px;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.call.is-scrub .tx-list{padding-top:28vh;padding-bottom:40vh}
+.tx{padding:12px 22px;display:grid;gap:5px;transition:opacity .35s ease}
+.call.is-scrub .tx.is-future{opacity:.26}
+.call.is-scrub .tx.is-past{opacity:.55}
+.tx .who{font:500 .7rem/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--mist)}
+.tx.ag .who{color:var(--agent)}
+.tx.hu .who{color:var(--human)}
+.tx .say{font-size:1.1rem;line-height:1.45}
+.tx .gloss{font-size:.86rem;color:var(--mist)}
+.tx.ev{font-family:var(--mono);margin:4px 22px;padding:10px 14px;border:1px dashed var(--line);border-radius:12px}
+.tx.ev .fn{font-size:.84rem;color:var(--frost);overflow-wrap:anywhere}
+.tx.ev .res{font-size:.8rem;color:var(--agent)}
+.tx.ev.hx .res{color:var(--human)}
+.tx.sys{font-family:var(--mono);font-size:.8rem;color:var(--mist)}
+.tx.sys .say{font:500 .86rem/1.5 var(--mono);color:var(--mist)}
+.tx.end .say{color:var(--frost);font-family:var(--body);font-size:1rem}
+.call.is-scrub .tx.is-active.ev{border-color:color-mix(in srgb,var(--agent) 55%,var(--line));background:color-mix(in srgb,var(--agent) 6%,transparent)}
+.call.is-scrub .tx.is-active.ev.hx{border-color:color-mix(in srgb,var(--human) 55%,var(--line));background:color-mix(in srgb,var(--human) 7%,transparent)}
+.graph-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.graph-body{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:14px;overflow-x:auto}
+.wf{width:100%;height:100%;max-height:560px;min-width:440px}
+.wf .node rect{fill:var(--basalt-3);stroke:var(--line);stroke-width:1.3;transition:fill .3s,stroke .3s}
+.wf .node .t{fill:var(--frost);font:600 14px var(--body)}
+.wf .node.m .t{font:500 12.5px var(--mono)}
+.wf .node .s{fill:var(--mist);font:400 10.5px var(--mono);letter-spacing:.04em}
+.wf .node.is-seen rect{stroke:color-mix(in srgb,var(--agent) 50%,var(--line))}
+.wf .node.hn.is-seen rect{stroke:color-mix(in srgb,var(--human) 55%,var(--line))}
+.wf .node.is-lit rect{stroke:var(--agent);stroke-width:1.8;fill:color-mix(in srgb,var(--agent) 15%,var(--basalt-3))}
+.wf .node.hn.is-lit rect{stroke:var(--human);fill:color-mix(in srgb,var(--human) 15%,var(--basalt-3))}
+.wf .edge{fill:none;stroke:var(--line);stroke-width:1.6;transition:stroke .3s}
+.wf .edge.is-seen{stroke:color-mix(in srgb,var(--agent) 45%,var(--line))}
+.wf .edge.hn.is-seen{stroke:color-mix(in srgb,var(--human) 50%,var(--line))}
+.wf .edge.is-lit{stroke:var(--agent);stroke-dasharray:6 5;animation:flow .9s linear infinite}
+.wf .edge.hn.is-lit{stroke:var(--human)}
+@keyframes flow{to{stroke-dashoffset:-11}}
+@media (prefers-reduced-motion: reduce){.wf .edge.is-lit{animation:none}}
+@media (max-width:900px){
+  .call-stage{grid-template-columns:1fr}
+  .call.is-scrub .graph-panel{display:none}
+  .call.is-scrub .now{display:block}
+  .tx .say{font-size:1.02rem}
+}
+
+/* Talk to Sól */
+.talk-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
+.talk-stage{align-items:center;justify-content:center;text-align:center;gap:14px;padding:26px 22px 28px;background:radial-gradient(70% 60% at 50% 38%,color-mix(in srgb,var(--agent) 10%,var(--basalt-2)),var(--basalt-2) 70%)}
+.talk-orb{width:min(100%,340px);aspect-ratio:1;max-width:100%;display:block}
+.talk-status{font:500 .92rem/1.35 var(--mono);color:var(--frost);min-height:1.35em}
+.talk-stage .btn{font-size:1.05rem;padding:1.05rem 1.6rem}
+.talk-stage .btn[aria-disabled=true]{opacity:.7;pointer-events:none}
+.talk-stage .btn.is-live{background:var(--human);color:var(--agent-ink)}
+.talk-alt{font-size:.86rem;color:var(--mist)}
+.talk-alt a{color:var(--agent);text-underline-offset:3px}
+.talk-side{display:grid;gap:16px;grid-template-rows:minmax(0,1fr) auto;min-width:0}
+.talk-log{min-height:300px;max-height:460px}
+.talk-log ol{list-style:none;margin:0;padding:16px 20px 20px;overflow-y:auto;display:grid;gap:14px;align-content:start;flex:1}
+.talk-log li{display:grid;gap:4px;font-size:1rem;line-height:1.5}
+.talk-log li .who{font:500 .68rem/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--agent)}
+.talk-log li.me .who{color:var(--human)}
+.talk-log li.hint{color:var(--mist);font-size:.95rem}
+.tryit{border:1px solid var(--line);border-radius:20px;padding:20px 22px;display:grid;gap:12px}
+.tryit ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.tryit li{font:400 .88rem/1.5 var(--mono);color:var(--frost)}
+.tryit li span{color:var(--mist)}
+@media (max-width:900px){.talk-grid{grid-template-columns:1fr}.talk-log{min-height:220px}}
+
+/* Use-case rail */
+.cases-head{padding-bottom:0}
+.rail{position:relative;padding-block:36px clamp(84px,10vw,140px)}
+.rail-stage{min-width:0}
+.rail.is-scrub{padding-block:0;margin-block:36px clamp(84px,10vw,140px)}
+.rail.is-scrub .rail-stage{position:sticky;top:calc(var(--hdr) + 7vh)}
+.rail-viewport{overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin}
+.rail.is-scrub .rail-viewport{overflow:hidden;padding-bottom:0}
+.rail-track{display:flex;gap:20px;width:max-content;padding-inline:clamp(16px,calc((100vw - var(--measure))/2 + 48px),9999px);will-change:transform}
+@media (max-width:1240px){.rail-track{padding-inline:clamp(16px,4vw,48px)}}
+.case{width:min(84vw,380px);scroll-snap-align:start;background:var(--basalt-2);border:1px solid var(--line);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:20px}
+.case header{display:grid;gap:12px}
+.case h3{font:800 1.55rem/1 var(--display);font-stretch:118%;text-transform:uppercase}
+.dir{display:flex;gap:6px}
+.dir span{font:500 .68rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:6px 8px;border-radius:6px;border:1px solid var(--line);color:var(--mist)}
+.case .k{font:500 .7rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.case ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.case li{display:flex;gap:10px;align-items:baseline;font-size:.98rem}
+.case li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--agent);transform:translateY(-2px)}
+.case .team{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px}
+.case .team p{font-size:.95rem;color:var(--frost)}
+.case .line{margin-top:auto;font:400 .84rem/1.45 var(--mono);color:var(--mist);background:var(--basalt);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.case .line b{display:block;font-weight:500;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+
+/* Platform bento */
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tile{background:var(--basalt-2);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.tile .label{color:var(--dim)}
+.tile h3{font:700 1.18rem/1.2 var(--body)}
+.tile p{color:var(--mist);font-size:.96rem}
+.tile.big{grid-column:span 2;grid-row:span 2;background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--agent) 12%,var(--basalt-2)),var(--basalt-2) 60%);gap:16px}
+.tile.big h3{font:800 clamp(1.5rem,2.4vw,2.1rem)/1 var(--display);font-stretch:118%;text-transform:uppercase}
+.tile.big p{font-size:1.02rem;max-width:46ch}
+.mini{margin-top:auto;width:100%;height:auto;max-width:100%}
+.mini rect{fill:var(--basalt);stroke:var(--line);stroke-width:1.2}
+.mini .a rect{stroke:var(--agent)}
+.mini .hh rect{stroke:var(--human)}
+.mini text{fill:var(--frost);font:500 11px var(--mono)}
+.mini .hh text{fill:var(--human)}
+.mini path{fill:none;stroke:var(--dim);stroke-width:1.3}
+.langs{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.langs span{font:500 .72rem/1 var(--mono);padding:6px 8px;border-radius:6px;border:1px solid var(--line);color:var(--frost)}
+.langs span:first-child{border-color:var(--agent);color:var(--agent)}
+@media (max-width:1020px){.bento{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.bento{grid-template-columns:1fr}.tile.big{grid-column:auto;grid-row:auto}}
+
+/* Results */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,36px)}
+.stat{border-top:1px solid var(--line);padding-top:22px;display:grid;gap:14px;align-content:start;position:relative}
+.stat::before{content:"";position:absolute;top:-1px;left:0;height:2px;width:calc(var(--fill,1) * 100%);background:var(--agent)}
+.stat .num{font:800 clamp(2.4rem,4.6vw,3.9rem)/.95 var(--display);font-stretch:118%;color:var(--agent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat .num small{font-size:.5em;color:var(--mist);font-stretch:100%}
+.stat .who{font:600 1rem/1.2 var(--body)}
+.stat p{font-size:.94rem;color:var(--mist)}
+.stat a{font:500 .74rem/1.2 var(--mono);color:var(--mist);text-underline-offset:3px}
+.stat a:hover{color:var(--frost)}
+@media (max-width:1020px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.stats{grid-template-columns:1fr}}
+
+/* Estimator */
+.est{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:start}
+.sliders{display:grid;gap:28px}
+.sl{display:grid;gap:10px}
+.sl-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.sl label{font-weight:600;font-size:1rem}
+.sl output{font:500 1rem/1 var(--mono);color:var(--agent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sl input[type=range]{width:100%;accent-color:var(--agent);height:28px}
+.sl .hint{font-size:.84rem;color:var(--mist)}
+.est-out{background:var(--basalt-2);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,3vw,34px);display:grid;gap:24px}
+.big-out{display:grid;gap:6px}
+.big-out .v{font:800 clamp(3rem,7vw,5.4rem)/.9 var(--display);font-stretch:118%;color:var(--human);font-variant-numeric:tabular-nums}
+.big-out .k{font-size:1rem;color:var(--frost)}
+.out-rows{display:grid;gap:0;border-top:1px solid var(--line)}
+.out-row{display:flex;justify-content:space-between;gap:16px;padding-block:14px;border-bottom:1px solid var(--line);font-size:.96rem}
+.out-row span{color:var(--mist)}
+.out-row b{font:500 1rem/1.3 var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.note{font-size:.82rem;color:var(--mist);line-height:1.5}
+@media (max-width:860px){.est{grid-template-columns:1fr}}
+
+/* Process */
+.steps{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,3vw,40px);padding-top:34px}
+.steps-line{position:absolute;top:0;left:0;right:0;height:2px;background:var(--line)}
+.steps-line i{display:block;height:100%;width:calc(var(--fill,1) * 100%);background:var(--agent)}
+.step{display:grid;gap:12px;align-content:start}
+.step .n{font:800 2.6rem/1 var(--display);font-stretch:125%;color:var(--dim)}
+.step h3{font:700 1.2rem/1.25 var(--body)}
+.step p{color:var(--mist);font-size:.96rem}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+
+/* Contact */
+.contact{border-top:1px solid var(--line);background:radial-gradient(80% 60% at 0% 0%,color-mix(in srgb,var(--agent) 9%,var(--basalt)),var(--basalt) 70%)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:start}
+.contact .h2{font-size:clamp(2.2rem,5.6vw,4.6rem)}
+.contact-copy{display:grid;gap:26px}
+.einar{display:flex;gap:16px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--basalt-2)}
+.avatar{flex:none;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--agent);color:var(--agent-ink);font:800 1.1rem/1 var(--display);font-stretch:118%}
+.einar b{display:block;font-size:1.05rem}
+.einar span{font-size:.9rem;color:var(--mist)}
+.promise{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.promise li{display:flex;gap:12px;align-items:baseline}
+.promise li::before{content:"";flex:none;width:14px;height:2px;background:var(--agent);transform:translateY(-4px)}
+.form{background:var(--basalt-2);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,3vw,34px);display:grid;gap:18px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.field{display:grid;gap:8px;min-width:0}
+.field label,.field legend{font-weight:600;font-size:.92rem}
+.field .opt{font-weight:400;color:var(--mist)}
+.form input[type=text],.form input[type=email],.form input[type=tel],.form select,.form textarea{width:100%;font:400 1rem/1.4 var(--body);color:var(--frost);background:var(--basalt);border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem;transition:border-color .2s}
+.form textarea{min-height:110px;resize:vertical}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--agent);box-shadow:0 0 0 3px color-mix(in srgb,var(--agent) 22%,transparent)}
+.form fieldset{border:0;margin:0;padding:0}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg label{display:flex;align-items:center;gap:8px;font-weight:500;padding:.6rem .9rem;border:1px solid var(--line);border-radius:999px;cursor:pointer;background:var(--basalt)}
+.seg input{accent-color:var(--agent)}
+.seg label:has(input:checked){border-color:var(--agent)}
+.form .btn{justify-content:center;width:100%;font-size:1.05rem}
+.fine{font-size:.82rem;color:var(--mist)}
+.sent{display:grid;gap:16px}
+.sent h3{font:800 1.6rem/1 var(--display);font-stretch:118%;text-transform:uppercase}
+.sent pre{margin:0;white-space:pre-wrap;font:400 .86rem/1.55 var(--mono);color:var(--frost);background:var(--basalt);border:1px solid var(--line);border-radius:14px;padding:16px;max-height:280px;overflow:auto}
+.sent .addr{font:500 1rem/1.2 var(--mono);color:var(--agent);user-select:all}
+.sent .ctas .btn{width:auto}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,72px)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:18px;padding:22px 0;font:600 1.1rem/1.35 var(--body)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:400 1.5rem/1 var(--mono);color:var(--agent);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 22px;color:var(--mist);max-width:62ch}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr}}
+
+/* Footer */
+.foot{border-top:1px solid var(--line);padding-block:48px 56px;font-size:.88rem;color:var(--mist)}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:36px}
+.foot h4{margin:0 0 12px;font:500 .72rem/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.foot a{color:var(--mist);text-underline-offset:3px}
+.foot a:hover{color:var(--frost)}
+.foot .logo{margin-bottom:14px}
+@media (max-width:760px){.foot .wrap{grid-template-columns:1fr}}
+</style>
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+</head>
+<body>
+<header class="hdr" id="top-bar">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="EKO home">
+      <svg viewBox="0 0 26 20" aria-hidden="true"><rect x="0" y="7" width="4" height="6" rx="2"/><rect x="7" y="2" width="4" height="16" rx="2"/><rect x="14" y="5" width="4" height="10" rx="2"/><rect x="21" y="8" width="4" height="4" rx="2"/></svg>
+      EKO
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#the-call">The call</a>
+      <a href="#talk">Try it live</a>
+      <a href="#cases">Use cases</a>
+      <a href="#platform">Platform</a>
+      <a href="#results">Results</a>
+    </nav>
+    <a class="btn btn-primary" href="#contact">Book a demo</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="orb-wrap" id="orb-wrap" aria-hidden="true"><canvas id="orb"></canvas></div>
+    <div class="wrap">
+      <p class="label eyebrow">AI phone agents · Built on ElevenLabs · Iceland</p>
+      <h1 id="hero-title"><span class="h1a">Every call</span><span class="h1b agent">answered.</span></h1>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="lead">EKO builds AI phone agents on ElevenLabs for Icelandic businesses. They pick up on the first ring, day or night, take bookings and answer questions in natural Icelandic or English, and pass the calls that need a person to <span class="human">your team</span>, with a summary attached.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#contact">Ask Einar for a demo
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="btn btn-ghost" href="#talk">Talk to Sól live</a>
+          </div>
+          <div class="proof"><span>Icelandic + 70 languages</span><span>Answers 24/7</span><span>Human handoff built in</span></div>
+        </div>
+
+        <aside class="callcard" aria-label="Example of a live call">
+          <div class="cc-top"><span class="live"><i></i>Live call</span><span>Friday 19:42</span><span class="t">00:16</span></div>
+          <div class="cc-who"><b>Sól · AI assistant</b><span>Ölduhús restaurant (example)</span></div>
+          <div class="wave" aria-hidden="true">
+            <span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span><span style="--i:4"></span><span style="--i:5"></span><span style="--i:6"></span><span style="--i:7"></span><span style="--i:8"></span><span style="--i:9"></span><span style="--i:10"></span><span style="--i:11"></span><span style="--i:12"></span><span style="--i:13"></span><span style="--i:14"></span><span style="--i:15"></span><span style="--i:16"></span><span style="--i:17"></span><span style="--i:18"></span><span style="--i:19"></span><span style="--i:20"></span><span style="--i:21"></span><span style="--i:22"></span><span style="--i:23"></span><span style="--i:24"></span><span style="--i:25"></span><span style="--i:26"></span><span style="--i:27"></span><span style="--i:28"></span>
+          </div>
+          <div class="cc-quote">
+            <p>„Klukkan sjö er fullbókað, en ég get boðið ykkur borð við gluggann klukkan hálf átta.“</p>
+            <p>Seven is fully booked, but I can offer you a window table at half past seven.</p>
+          </div>
+          <div class="chips">
+            <span class="chip"><b>✓</b> check_availability · 19:30 free</span>
+            <span class="chip"><b>→</b> table for 6 · awaiting name</span>
+            <span class="chip h"><b>●</b> staff not interrupted</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-label="Calls an agent can take">
+    <div class="mq-track">
+      <ul>
+        <li>Table bookings</li><li>Opening hours</li><li>Appointment changes</li><li>Order status</li><li>Directions &amp; parking</li><li>Gift cards</li><li>Lost &amp; found</li><li>Price questions</li><li>After-hours calls</li><li>Lead follow-up</li>
+      </ul>
+      <ul aria-hidden="true">
+        <li>Table bookings</li><li>Opening hours</li><li>Appointment changes</li><li>Order status</li><li>Directions &amp; parking</li><li>Gift cards</li><li>Lost &amp; found</li><li>Price questions</li><li>After-hours calls</li><li>Lead follow-up</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STATEMENT -->
+  <section class="section statement" aria-label="Why phone agents">
+    <div class="wrap">
+      <p class="statement-text" id="statement-text">Most calls are the same handful of questions. <em class="q">Is there a table at eight?</em> <em class="q">Are you open on Sunday?</em> <em class="q">Where is my order?</em> <em class="q">Can I move my appointment?</em> Your best people answer them all day, while the customer standing in front of them waits.</p>
+      <p class="lead after">An AI voice agent takes those calls instantly, at any hour, and only passes on what truly needs a person. Your team gets back to the work customers notice.</p>
+    </div>
+  </section>
+
+  <!-- CALL DEMO -->
+  <section class="section call-intro" id="the-call" aria-labelledby="call-title">
+    <div class="wrap sec-head">
+      <p class="label eyebrow">The call</p>
+      <h2 class="h2" id="call-title">Watch an agent handle a real-world call</h2>
+      <p class="lead">A fictional seafood restaurant, Ölduhús, on a busy Friday evening. Scroll to play the call. On the right is the workflow the agent follows: a triage agent routes the caller, a bookings subagent checks real availability, a procedure handles the allergy, and a person takes over when the question needs one.</p>
+      <div class="legend"><span><i></i>Handled by the agent</span><span><i class="h"></i>Handed to your team</span></div>
+    </div>
+  </section>
+
+  <section class="call" id="call" aria-label="Call transcript and workflow">
+    <div class="wrap">
+      <div class="call-stage">
+        <div class="panel">
+          <div class="ph">
+            <span class="live"><i></i>Live</span>
+            <span class="who-line">Caller → Ölduhús</span>
+            <span class="clock" id="call-clock">01:22</span>
+          </div>
+          <div class="progress"><i id="call-progress"></i></div>
+          <div class="now" id="call-now"><b>Now:</b> <span>Triage agent</span></div>
+          <div class="tx-window">
+            <ol class="tx-list" id="tx-list">
+              <li class="tx sys" data-lit="triage" data-clock="00:00" data-now="Incoming call · triage agent answers">
+                <span class="say">Friday 19:42 · incoming call · kitchen and floor staff are mid-service</span>
+              </li>
+              <li class="tx ag" data-lit="triage" data-clock="00:03" data-now="Triage agent · greeting">
+                <span class="who">Sól · AI</span>
+                <span class="say">Ölduhús, gott kvöld. Þú ert að tala við Sól, gervigreindaraðstoðarmann. Hvernig get ég aðstoðað?</span>
+                <span class="gloss">Ölduhús, good evening. You're speaking with Sól, an AI assistant. How can I help?</span>
+              </li>
+              <li class="tx" data-lit="triage bookings" data-edges="e1" data-clock="00:09" data-now="Triage → Bookings subagent">
+                <span class="who">Caller</span>
+                <span class="say">Hæ, mig langar að panta borð fyrir sex annað kvöld klukkan sjö.</span>
+                <span class="gloss">Hi, I'd like to book a table for six tomorrow evening at seven.</span>
+              </li>
+              <li class="tx ev" data-lit="avail" data-edges="e4" data-clock="00:12" data-now="Tool · check_availability()">
+                <span class="who">Tool call · booking system</span>
+                <span class="fn">check_availability(day: "Sat", time: "19:00", guests: 6)</span>
+                <span class="res">19:00 full · 19:30 window table free</span>
+              </li>
+              <li class="tx ag" data-lit="bookings" data-clock="00:16" data-now="Bookings subagent">
+                <span class="who">Sól · AI</span>
+                <span class="say">Klukkan sjö er fullbókað, en ég get boðið ykkur borð við gluggann klukkan hálf átta. Hentar það?</span>
+                <span class="gloss">Seven is fully booked, but I can offer you a window table at half past seven. Does that work?</span>
+              </li>
+              <li class="tx" data-lit="bookings" data-clock="00:24" data-now="Bookings subagent">
+                <span class="who">Caller</span>
+                <span class="say">Já, það hentar fínt. Einn í hópnum er með hnetuofnæmi.</span>
+                <span class="gloss">Yes, that works. One person in our group has a nut allergy.</span>
+              </li>
+              <li class="tx ev" data-lit="allergy" data-edges="e5" data-clock="00:27" data-now="Procedure · Allergy note">
+                <span class="who">Procedure · allergy</span>
+                <span class="fn">add_note(booking, "nut allergy") · notify(kitchen)</span>
+                <span class="res">Allergy on the booking · kitchen notified</span>
+              </li>
+              <li class="tx ag" data-lit="bookings allergy" data-clock="00:31" data-now="Bookings subagent">
+                <span class="who">Sól · AI</span>
+                <span class="say">Ég skrái hnetuofnæmið á bókunina og læt eldhúsið vita. Á hvaða nafni á bókunin að vera?</span>
+                <span class="gloss">I'll note the nut allergy on the booking and let the kitchen know. What name should the booking be under?</span>
+              </li>
+              <li class="tx" data-lit="bookings" data-clock="00:37" data-now="Bookings subagent">
+                <span class="who">Caller</span>
+                <span class="say">Guðrún.</span>
+              </li>
+              <li class="tx ev" data-lit="book sms" data-edges="e6 e7" data-clock="00:39" data-now="Tools · create_booking() + send_sms()">
+                <span class="who">Tool calls · booking system + SMS</span>
+                <span class="fn">create_booking("Guðrún", "Sat 19:30", 6) · send_sms(caller)</span>
+                <span class="res">Booking #2817 confirmed · confirmation text sent</span>
+              </li>
+              <li class="tx ag" data-lit="bookings" data-clock="00:44" data-now="Bookings subagent">
+                <span class="who">Sól · AI</span>
+                <span class="say">Takk, Guðrún. Borð fyrir sex á morgun klukkan hálf átta. Þú færð staðfestingu í SMS eftir augnablik.</span>
+                <span class="gloss">Thanks, Guðrún. A table for six tomorrow at half past seven. You'll get a confirmation by text in a moment.</span>
+              </li>
+              <li class="tx" data-lit="triage events" data-edges="e3" data-clock="01:02" data-now="Triage → Events subagent">
+                <span class="who">Caller</span>
+                <span class="say">Eitt enn: eruð þið með jólahlaðborð fyrir 40 manna hóp í desember?</span>
+                <span class="gloss">One more thing: do you do a Christmas buffet for a group of 40 in December?</span>
+              </li>
+              <li class="tx ag" data-lit="events" data-clock="01:10" data-now="Events subagent · decides to hand over">
+                <span class="who">Sól · AI</span>
+                <span class="say">Viðburðastjórinn okkar sér um jólahópa. Ég gef þér samband við hana núna og sendi henni samantekt, svo þú þurfir ekki að endurtaka neitt.</span>
+                <span class="gloss">Our events manager looks after Christmas groups. I'll put you through to her now and send her a summary, so you won't need to repeat anything.</span>
+              </li>
+              <li class="tx ev hx hu" data-lit="transfer summary" data-edges="e8 e9" data-clock="01:22" data-now="Transfer to a person · summary sent">
+                <span class="who">Transfer · your team</span>
+                <span class="fn">transfer_to_number(events_manager) · summary</span>
+                <span class="res">Guðrún · 40 guests · Christmas buffet · December · already booked Sat 19:30</span>
+              </li>
+              <li class="tx sys end" data-lit="summary" data-clock="01:22" data-now="Call complete">
+                <span class="who">Result</span>
+                <span class="say">1 min 22 s with the agent. Table booked, allergy flagged, confirmation sent, and the events manager picks up a caller she already knows about.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="panel graph-panel">
+          <div class="graph-head">
+            <span class="label">Agent workflow</span>
+            <span class="label agent">ElevenLabs Agents</span>
+          </div>
+          <div class="graph-body">
+            <svg class="wf" id="wf" viewBox="0 0 600 490" role="img" aria-label="Workflow: a triage agent routes to bookings, menu and hours, or events. Bookings checks availability, applies the allergy procedure, creates the booking and sends an SMS. Events transfers to a person and sends a summary.">
+              <path class="edge" id="e1" d="M300 74 C300 104 105 100 105 130"/>
+              <path class="edge" id="e2" d="M300 74 L300 130"/>
+              <path class="edge" id="e3" d="M300 74 C300 104 495 100 495 130"/>
+              <path class="edge" id="e4" d="M105 188 L105 230"/>
+              <path class="edge" id="e5" d="M105 280 L105 322"/>
+              <path class="edge" id="e6" d="M105 372 L105 414"/>
+              <path class="edge" id="e7" d="M190 439 L215 439"/>
+              <path class="edge hn" id="e8" d="M495 188 L495 230"/>
+              <path class="edge hn" id="e9" d="M495 288 L495 322"/>
+
+              <g class="node" data-node="triage"><rect x="200" y="16" width="200" height="58" rx="12"/><text class="t" x="300" y="41" text-anchor="middle">Triage agent</text><text class="s" x="300" y="60" text-anchor="middle">greets · understands · routes</text></g>
+              <g class="node" data-node="bookings"><rect x="20" y="130" width="170" height="58" rx="12"/><text class="t" x="105" y="155" text-anchor="middle">Bookings</text><text class="s" x="105" y="174" text-anchor="middle">subagent</text></g>
+              <g class="node" data-node="faq"><rect x="215" y="130" width="170" height="58" rx="12"/><text class="t" x="300" y="155" text-anchor="middle">Menu &amp; hours</text><text class="s" x="300" y="174" text-anchor="middle">knowledge base</text></g>
+              <g class="node" data-node="events"><rect x="410" y="130" width="170" height="58" rx="12"/><text class="t" x="495" y="155" text-anchor="middle">Events &amp; groups</text><text class="s" x="495" y="174" text-anchor="middle">subagent</text></g>
+              <g class="node m" data-node="avail"><rect x="20" y="230" width="170" height="50" rx="10"/><text class="t" x="105" y="252" text-anchor="middle">check_availability()</text><text class="s" x="105" y="269" text-anchor="middle">tool · booking system</text></g>
+              <g class="node" data-node="allergy"><rect x="20" y="322" width="170" height="50" rx="10"/><text class="t" x="105" y="344" text-anchor="middle">Allergy note</text><text class="s" x="105" y="361" text-anchor="middle">procedure</text></g>
+              <g class="node m" data-node="book"><rect x="20" y="414" width="170" height="50" rx="10"/><text class="t" x="105" y="436" text-anchor="middle">create_booking()</text><text class="s" x="105" y="453" text-anchor="middle">tool</text></g>
+              <g class="node m" data-node="sms"><rect x="215" y="414" width="170" height="50" rx="10"/><text class="t" x="300" y="436" text-anchor="middle">send_sms()</text><text class="s" x="300" y="453" text-anchor="middle">tool</text></g>
+              <g class="node hn" data-node="transfer"><rect x="410" y="230" width="170" height="58" rx="12"/><text class="t" x="495" y="255" text-anchor="middle">Transfer to a person</text><text class="s" x="495" y="274" text-anchor="middle">events manager</text></g>
+              <g class="node hn" data-node="summary"><rect x="410" y="322" width="170" height="50" rx="10"/><text class="t" x="495" y="344" text-anchor="middle">Call summary</text><text class="s" x="495" y="361" text-anchor="middle">sent to your team</text></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TALK TO SÓL -->
+  <section class="section" id="talk" aria-labelledby="talk-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label eyebrow">Try it live</p>
+        <h2 class="h2" id="talk-title">Now talk to Sól yourself</h2>
+        <p class="lead">Sól is a real ElevenLabs voice agent set up by EKO. Book a table at Ölduhús, ask about the menu, or ask what an agent could do for your business. Speak Icelandic or English.</p>
+      </div>
+      <div class="talk-grid">
+        <div class="panel talk-stage">
+          <canvas class="talk-orb" id="talk-orb" aria-hidden="true"></canvas>
+          <p class="talk-status" id="talk-status" aria-live="polite">Ready when you are</p>
+          <a class="btn btn-primary" id="talk-btn" href="https://elevenlabs.io/app/talk-to?agent_id=agent_9901m41zb64ae718v9dmjfrg5ryn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.5" y="1.5" width="5" height="8.5" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 7.5a5 5 0 0 0 10 0M8 12.5v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span id="talk-btn-label">Start talking</span></a>
+          <p class="talk-alt" id="talk-alt">Uses your microphone. Conversations last up to five minutes and are recorded by ElevenLabs.</p>
+        </div>
+        <div class="talk-side">
+          <div class="panel talk-log">
+            <div class="graph-head"><span class="label">Conversation</span><span class="label agent">Live transcript</span></div>
+            <ol id="talk-log" aria-live="polite"><li class="hint">What you and Sól say appears here as you talk.</li></ol>
+          </div>
+          <div class="tryit">
+            <span class="label">Things to try</span>
+            <ul>
+              <li>„Mig langar að panta borð fyrir fjóra á laugardaginn.“ <span>Book a table for four on Saturday.</span></li>
+              <li>“Do you have anything vegetarian?”</li>
+              <li>“Could an agent like you answer the phone for my hair salon?”</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="section cases-head" id="cases" aria-labelledby="cases-title">
+    <div class="wrap sec-head">
+      <p class="label eyebrow">Use cases</p>
+      <h2 class="h2" id="cases-title">What an agent takes off your team's plate</h2>
+      <p class="lead">Every business has its own top ten calls. The agent takes the routine ones and hands everything that needs judgement to a person.</p>
+    </div>
+  </section>
+  <section class="rail" id="rail" aria-label="Use cases by industry">
+    <div class="rail-stage">
+      <div class="rail-viewport" id="rail-viewport">
+        <div class="rail-track" id="rail-track">
+          <article class="case">
+            <header><div class="dir"><span>Inbound</span></div><h3>Restaurants &amp; cafés</h3></header>
+            <div><span class="k agent">Agent handles</span><ul><li>Bookings, changes and cancellations</li><li>Menu, allergens and opening hours</li><li>Waitlist and no-show reminders</li></ul></div>
+            <div class="team"><span class="k human">Your team gets</span><p>Large groups, events and complaints, with a summary.</p></div>
+            <p class="line"><b>On the line</b>“Do you have a table for four at eight tonight?”</p>
+          </article>
+          <article class="case">
+            <header><div class="dir"><span>Inbound</span></div><h3>Hotels &amp; guesthouses</h3></header>
+            <div><span class="k agent">Agent handles</span><ul><li>Availability and check-in questions</li><li>Late arrivals and airport transfers</li><li>Answers in the guest's own language</li></ul></div>
+            <div class="team"><span class="k human">Your team gets</span><p>Special requests and anything that needs a decision.</p></div>
+            <p class="line"><b>On the line</b>“Our flight lands at 01:30. Can we still check in?”</p>
+          </article>
+          <article class="case">
+            <header><div class="dir"><span>Inbound</span><span>Outbound</span></div><h3>Clinics, salons &amp; services</h3></header>
+            <div><span class="k agent">Agent handles</span><ul><li>Booking and moving appointments</li><li>Reminder calls the day before</li><li>Prices and preparation questions</li></ul></div>
+            <div class="team"><span class="k human">Your team gets</span><p>Medical or sensitive questions, straight to a person.</p></div>
+            <p class="line"><b>On the line</b>“Can I move Thursday's appointment to next week?”</p>
+          </article>
+          <article class="case">
+            <header><div class="dir"><span>Inbound</span></div><h3>Shops &amp; webshops</h3></header>
+            <div><span class="k agent">Agent handles</span><ul><li>Order status and delivery</li><li>Returns and exchanges</li><li>Stock and product questions</li></ul></div>
+            <div class="team"><span class="k human">Your team gets</span><p>Refund decisions and unhappy customers, with the order attached.</p></div>
+            <p class="line"><b>On the line</b>“My order was meant to arrive yesterday. Where is it?”</p>
+          </article>
+          <article class="case">
+            <header><div class="dir"><span>Inbound</span><span>Outbound</span></div><h3>Tours &amp; travel</h3></header>
+            <div><span class="k agent">Agent handles</span><ul><li>Pickup times and meeting points</li><li>Weather and cancellation updates</li><li>Rebooking to another day</li></ul></div>
+            <div class="team"><span class="k human">Your team gets</span><p>Group sales and partner calls.</p></div>
+            <p class="line"><b>On the line</b>“Is the glacier walk still on tomorrow?”</p>
+          </article>
+          <article class="case">
+            <header><div class="dir"><span>Outbound</span></div><h3>Sales &amp; follow-up</h3></header>
+            <div><span class="k agent">Agent handles</span><ul><li>Calling new leads back within minutes</li><li>Following up on quotes you've sent</li><li>Booking meetings in your calendar</li></ul></div>
+            <div class="team"><span class="k human">Your team gets</span><p>Qualified, warm conversations ready to close.</p></div>
+            <p class="line"><b>On the line</b>“Hi, this is Sól from Ölduhús Events, calling about the quote we sent on Tuesday.”</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM -->
+  <section class="section" id="platform" aria-labelledby="platform-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label eyebrow">Under the hood</p>
+        <h2 class="h2" id="platform-title">Built on ElevenLabs Agents</h2>
+        <p class="lead">ElevenLabs Agents handle more than 10 million conversations a week across phone, web, WhatsApp, SMS and email. EKO designs your agent on the platform, connects it to your systems and keeps improving it.</p>
+      </div>
+      <div class="bento">
+        <article class="tile big">
+          <span class="label">Workflows</span>
+          <h3>Workflows, not one giant prompt</h3>
+          <p>Each call follows a visual workflow. A triage agent routes the caller to specialised subagents, each with its own instructions, tools and knowledge. Handoffs and tool calls are explicit, so the agent behaves the same way every time and can be tested.</p>
+          <svg class="mini" viewBox="0 0 420 150" aria-hidden="true">
+            <path d="M210 44 C210 70 70 62 70 92"/><path d="M210 44 L210 92"/><path d="M210 44 C210 70 350 62 350 92"/>
+            <g class="a"><rect x="140" y="10" width="140" height="34" rx="9"/><text x="210" y="32" text-anchor="middle">triage</text></g>
+            <g class="a"><rect x="10" y="92" width="120" height="34" rx="9"/><text x="70" y="114" text-anchor="middle">bookings</text></g>
+            <g class="a"><rect x="150" y="92" width="120" height="34" rx="9"/><text x="210" y="114" text-anchor="middle">faq</text></g>
+            <g class="hh"><rect x="290" y="92" width="120" height="34" rx="9"/><text x="350" y="114" text-anchor="middle">→ person</text></g>
+          </svg>
+        </article>
+        <article class="tile"><span class="label">Voice</span><h3>A voice people want to talk to</h3><p>Expressive Mode pairs Eleven v3 Conversational with smarter turn-taking, so the agent hears tone, reassures a stressed caller and knows when to pause.</p></article>
+        <article class="tile"><span class="label">Languages</span><h3>Icelandic, and 70+ more</h3><p>The agent answers in the caller's language, so Polish, English and German-speaking customers are served too.</p>
+          <div class="langs"><span>Íslenska</span><span>English</span><span>Polski</span><span>Deutsch</span><span>+66</span></div></article>
+        <article class="tile"><span class="label">Procedures</span><h3>Your procedures, followed</h3><p>Upload the instructions your staff already use. They become Procedures the agent follows step by step for bookings, refunds or ID checks.</p></article>
+        <article class="tile"><span class="label">Integrations</span><h3>Connected to your systems</h3><p>Booking systems, calendars, CRMs and webshops through APIs and webhooks, plus integrations like HubSpot, Salesforce, Shopify, Zendesk, Stripe and Zapier.</p></article>
+        <article class="tile"><span class="label">Handoff</span><h3>A person when it matters</h3><p>The agent transfers mid-call to a phone number or colleague and passes on a summary, so the caller never repeats themselves.</p></article>
+        <article class="tile"><span class="label">Testing</span><h3>Tested before it goes live</h3><p>Simulated calls, automated tests and guardrails check the agent against your real scenarios before launch and after every change.</p></article>
+        <article class="tile"><span class="label">Analytics</span><h3>Every call, measured</h3><p>Transcripts, success rates, satisfaction scores and languages in one dashboard. EKO uses them to keep improving your agent.</p></article>
+        <article class="tile"><span class="label">Security</span><h3>Built for sensitive data</h3><p>SOC 2 Type II and ISO 27001 certified platform with GDPR controls, EU data residency and a zero-retention mode available.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="section" id="results" aria-labelledby="results-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label eyebrow">Results</p>
+        <h2 class="h2" id="results-title">Already working at scale</h2>
+        <p class="lead">Results published by ElevenLabs and the companies using its agents. Large companies went first; the same platform is available to a business with a single phone line.</p>
+      </div>
+      <div class="stats" id="stats">
+        <article class="stat">
+          <span class="num">10×</span>
+          <span class="who">Klarna</span>
+          <p>Up to ten times faster resolution for questions handled by its voice agent, the first line of phone support for 35 million US customers.</p>
+          <a href="https://elevenlabs.io/blog/klarna" target="_blank" rel="noopener">Source: ElevenLabs, Feb 2026</a>
+        </article>
+        <article class="stat">
+          <span class="num">99.7%</span>
+          <span class="who">Revolut</span>
+          <p>Of calls handled by its agents go through successfully, with tickets solved in under five minutes, eight times faster than before.</p>
+          <a href="https://elevenlabs.io/blog/revolut" target="_blank" rel="noopener">Source: ElevenLabs, Jan 2026</a>
+        </article>
+        <article class="stat">
+          <span class="num">90<small>s</small>→15<small>s</small></span>
+          <span class="who">Kömpf24</span>
+          <p>Average wait at the German online retailer after its agent KIM took first-line calls, an 83% cut, at a running cost of about €5.48 an hour.</p>
+          <a href="https://elevenlabs.io/blog/kompf24-launches-digital-employee-kim-with-elevenlabs" target="_blank" rel="noopener">Source: ElevenLabs</a>
+        </article>
+        <article class="stat">
+          <span class="num">+25%</span>
+          <span class="who">SevenRooms restaurants</span>
+          <p>Up to 25% more reservations with a voice agent built on ElevenAgents: 400,000+ calls across 600+ restaurants, one in five after hours.</p>
+          <a href="https://elevenlabs.io/blog/sevenrooms" target="_blank" rel="noopener">Source: ElevenLabs, Jul 2026</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTIMATOR -->
+  <section class="section" id="estimate" aria-labelledby="est-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label eyebrow">Estimate</p>
+        <h2 class="h2" id="est-title">How many hours could you get back?</h2>
+        <p class="lead">Set the sliders to match your phone traffic. This is a rough estimate; Einar will work out the real numbers with you.</p>
+      </div>
+      <div class="est">
+        <div class="sliders">
+          <div class="sl">
+            <div class="sl-top"><label for="in-calls">Calls per month</label><output id="out-calls" for="in-calls">1,200</output></div>
+            <input type="range" id="in-calls" min="100" max="6000" step="50" value="1200">
+          </div>
+          <div class="sl">
+            <div class="sl-top"><label for="in-len">Average call length</label><output id="out-len" for="in-len">3 min</output></div>
+            <input type="range" id="in-len" min="1" max="10" step="0.5" value="3">
+          </div>
+          <div class="sl">
+            <div class="sl-top"><label for="in-share">Routine calls the agent resolves</label><output id="out-share" for="in-share">60%</output></div>
+            <input type="range" id="in-share" min="20" max="90" step="5" value="60">
+            <span class="hint">Bookings, opening hours, order status and similar questions.</span>
+          </div>
+          <div class="sl">
+            <div class="sl-top"><label for="in-wage">Staff cost per hour</label><output id="out-wage" for="in-wage">6.500 kr.</output></div>
+            <input type="range" id="in-wage" min="3000" max="15000" step="250" value="6500">
+          </div>
+        </div>
+        <div class="est-out" aria-live="polite">
+          <div class="big-out"><span class="v" id="res-hours">48</span><span class="k">team hours back every month</span></div>
+          <div class="out-rows">
+            <div class="out-row"><span>Calls resolved by the agent</span><b id="res-calls">720 / month</b></div>
+            <div class="out-row"><span>Value of that time</span><b id="res-value">312.000 kr. / month</b></div>
+            <div class="out-row"><span>ElevenLabs call minutes</span><b id="res-cost">≈ $211 / month</b></div>
+          </div>
+          <p class="note">Assumes one minute of wrap-up saved per resolved call and one minute of agent time on calls passed to a person. ElevenLabs agent minutes from $0.08; the phone line and AI model are billed separately. EKO's setup is quoted after the demo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" id="process" aria-labelledby="proc-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="label eyebrow">How EKO works</p>
+        <h2 class="h2" id="proc-title">From call map to live agent</h2>
+      </div>
+      <div class="steps" id="steps">
+        <div class="steps-line"><i id="steps-fill"></i></div>
+        <div class="step"><span class="n">1</span><h3>Map your calls</h3><p>We look at how your phone is used: which calls come in, when, and which ones need a person.</p></div>
+        <div class="step"><span class="n">2</span><h3>Design the agent</h3><p>Voice, greeting, knowledge and workflow: what the agent handles, which systems it checks and when it hands over.</p></div>
+        <div class="step"><span class="n">3</span><h3>Connect and test</h3><p>We connect your booking system, calendar or shop and run test calls until it handles your real cases. You hear it before customers do.</p></div>
+        <div class="step"><span class="n">4</span><h3>Go live, then tune</h3><p>Your number forwards to the agent. We review transcripts and success rates and keep improving it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <p class="label eyebrow">Demo</p>
+        <h2 class="h2" id="contact-title">Hear it on your own phone line</h2>
+        <p class="lead">EKO is Einar Kári Ólafsson's consultancy for AI phone agents. Leave your details and Einar will get in touch to set up a presentation and a live demonstration built around the calls your business actually gets.</p>
+        <ul class="promise">
+          <li>A live call, not a slide deck</li>
+          <li>In Icelandic or English</li>
+          <li>No commitment until you've heard it</li>
+        </ul>
+        <div class="einar">
+          <span class="avatar" aria-hidden="true">EK</span>
+          <div><b>Einar Kári Ólafsson</b><span>Founder, EKO · ElevenLabs agent builder</span></div>
+        </div>
+      </div>
+
+      <div>
+        <form class="form" id="lead-form" name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="demo-request">
+          <p hidden><label>Leave this empty: <input name="bot-field" id="lead-bot"></label></p>
+          <div class="row2">
+            <div class="field"><label for="lead-name">Your name</label><input type="text" id="lead-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="lead-company">Company</label><input type="text" id="lead-company" name="company" autocomplete="organization" required></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="lead-email">Email</label><input type="email" id="lead-email" name="email" autocomplete="email" required></div>
+            <div class="field"><label for="lead-phone">Phone <span class="opt">(optional)</span></label><input type="tel" id="lead-phone" name="phone" autocomplete="tel"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="lead-industry">Industry</label>
+              <select id="lead-industry" name="industry">
+                <option>Restaurant or café</option><option>Hotel or guesthouse</option><option>Clinic or health</option><option>Salon or service business</option><option>Shop or webshop</option><option>Tours and travel</option><option>Other</option>
+              </select></div>
+            <div class="field"><label for="lead-volume">Calls per week</label>
+              <select id="lead-volume" name="volume">
+                <option>Under 50</option><option selected>50–200</option><option>200–1,000</option><option>Over 1,000</option>
+              </select></div>
+          </div>
+          <div class="field"><label for="lead-notes">Which calls take up your team's time?</label><textarea id="lead-notes" name="notes" placeholder="For example: table bookings during dinner service, and the same questions about opening hours."></textarea></div>
+          <fieldset class="field"><legend>Demo language</legend>
+            <div class="seg">
+              <label for="lang-is"><input type="radio" id="lang-is" name="lang" value="Icelandic" checked> Íslenska</label>
+              <label for="lang-en"><input type="radio" id="lang-en" name="lang" value="English"> English</label>
+            </div>
+          </fieldset>
+          <p class="fine" id="form-error" role="alert" hidden>Please add your name, company and a valid email so Einar can reach you.</p>
+          <button class="btn btn-primary" type="submit">Ask Einar to get in touch</button>
+          <p class="fine">Your details are only used to arrange the demo.</p>
+        </form>
+
+        <div class="form sent" id="lead-done" hidden aria-live="polite">
+          <h3>Thanks, it's with Einar</h3>
+          <p>Einar will get in touch soon to set up a presentation and a live demo. If anything changes, reply to his email or send the form again.</p>
+        </div>
+
+        <div class="form sent" id="lead-pending" hidden aria-live="polite">
+          <h3>Almost there</h3>
+          <p>Online requests are still being switched on. Until then, tell Sól your name, company and the best phone number or email in the live demo, and she'll pass them on to Einar.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#talk">Talk to Sól</a>
+            <button class="btn btn-ghost" type="button" id="lead-back">Back to the form</button>
+          </div>
+        </div>
+
+        <div class="form sent" id="lead-sent" hidden aria-live="polite">
+          <h3>Your request is ready</h3>
+          <p>Send it to Einar and he'll get back to you to book a time for the demo.</p>
+          <pre id="lead-summary"></pre>
+          <p>Einar's email: <span class="addr" id="lead-addr"></span></p>
+          <div class="ctas">
+            <button class="btn btn-primary" type="button" id="lead-copy">Copy request</button>
+            <a class="btn btn-ghost" id="lead-mail" href="#contact">Open in email</a>
+            <button class="btn btn-ghost" type="button" id="lead-edit">Edit</button>
+          </div>
+          <p class="fine" id="copy-msg" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="sec-head" style="margin-bottom:0;align-content:start">
+        <p class="label eyebrow">Questions</p>
+        <h2 class="h2" id="faq-title">Good to know</h2>
+      </div>
+      <div>
+        <details><summary>Will callers know they're talking to an AI?</summary><p>Yes. We set the agent up to introduce itself as an AI assistant, and callers can ask for a person at any time.</p></details>
+        <details><summary>Does it really speak Icelandic?</summary><p>Yes. ElevenLabs' conversational voice model supports Icelandic among more than 70 languages. You'll hear it on the demo, so you can judge the quality for yourself.</p></details>
+        <details><summary>What happens when the agent can't help?</summary><p>It follows the rules you set: it transfers the call to a person, takes a message or books a callback, and always passes on a summary of the conversation.</p></details>
+        <details><summary>Can we keep our phone number?</summary><p>Usually, yes. Your existing number forwards to the agent, or it connects through your phone provider.</p></details>
+        <details><summary>What does it cost?</summary><p>Two parts: EKO's setup and support, quoted after the demo, and running costs. ElevenLabs charges from $0.08 per call minute, with the phone line and AI model billed on top.</p></details>
+        <details><summary>Is our customers' data safe?</summary><p>ElevenLabs is SOC 2 Type II and ISO 27001 certified, offers EU data residency and a zero-retention mode, and the agent only gets access to the systems it needs.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <a class="logo" href="#top" aria-label="EKO home"><svg viewBox="0 0 26 20" aria-hidden="true"><rect x="0" y="7" width="4" height="6" rx="2"/><rect x="7" y="2" width="4" height="16" rx="2"/><rect x="14" y="5" width="4" height="10" rx="2"/><rect x="21" y="8" width="4" height="4" rx="2"/></svg>EKO</a>
+      <p>AI phone agents for Icelandic businesses. Built on ElevenLabs Agents. EKO is an independent consultancy and is not affiliated with ElevenLabs.</p>
+      <p style="margin-top:12px">Ölduhús is a fictional example. © 2026 EKO</p>
+    </div>
+    <div>
+      <h4>Sources</h4>
+      <ul>
+        <li><a href="https://elevenlabs.io/agents" target="_blank" rel="noopener">ElevenAgents platform overview</a></li>
+        <li><a href="https://elevenlabs.io/blog/introducing-agent-workflows" target="_blank" rel="noopener">Introducing Agent Workflows</a></li>
+        <li><a href="https://elevenlabs.io/blog/introducing-expressive-mode" target="_blank" rel="noopener">Expressive Mode for ElevenAgents</a></li>
+        <li><a href="https://elevenlabs.io/blog/procedures" target="_blank" rel="noopener">Procedures in ElevenAgents</a></li>
+        <li><a href="https://elevenlabs.io/text-to-speech/icelandic" target="_blank" rel="noopener">Icelandic voices on ElevenLabs</a></li>
+        <li><a href="https://elevenlabs.io/pricing/agents" target="_blank" rel="noopener">ElevenAgents pricing</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+  const CONTACT_EMAIL = "einar@example.com"; // TODO: Einar's real address
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const wideMQ = window.matchMedia("(min-width: 900px)");
+  let vh = window.innerHeight;
+  const hdrH = () => ($("#top-bar") ? $("#top-bar").offsetHeight : 64);
+  const css = getComputedStyle(document.documentElement);
+  const hexToRgb = h => { h = h.trim().replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); const n = parseInt(h, 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+  const AGENT = hexToRgb(css.getPropertyValue("--agent") || "#6FE3D6");
+  const HUMAN = hexToRgb(css.getPropertyValue("--human") || "#FFB061");
+  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+  /* ---------- Orbs (hero + live talk) ---------- */
+  const makeOrb = (cv, opts) => {
+    if (!cv || !cv.getContext) return null;
+    const ctx = cv.getContext("2d");
+    let dpr = 1, running = false, raf = 0;
+    const size = () => { const r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr)); };
+    const draw = t => {
+      const w = cv.width, h = cv.height, cx = w / 2, cy = h / 2, R = Math.min(w, h) * (opts.scale || 0.3);
+      ctx.clearRect(0, 0, w, h);
+      const env = opts.level(t);
+      const tint = opts.tint ? opts.tint() : AGENT;
+      const g = ctx.createRadialGradient(cx, cy, R * 0.1, cx, cy, R * 1.8);
+      g.addColorStop(0, rgba(tint, 0.12 + env * 0.14)); g.addColorStop(0.55, rgba(tint, 0.04 + env * 0.04)); g.addColorStop(1, rgba(tint, 0));
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = "lighter";
+      const rings = 16;
+      for (let k = 0; k < rings; k++) {
+        const rr = R * (0.58 + k * 0.034);
+        ctx.beginPath();
+        for (let i = 0; i <= 180; i++) {
+          const a = (i / 180) * Math.PI * 2;
+          const d = Math.sin(a * 3 + t * 0.0009 + k * 0.38) * 0.045
+                  + Math.sin(a * 5 - t * 0.0016 + k * 0.9) * 0.04 * env
+                  + Math.sin(a * 2 + t * 0.0006) * 0.025;
+          const r = rr * (1 + d * (0.7 + env));
+          const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = k % 5 === 4 ? rgba(HUMAN, 0.22) : rgba(tint, 0.08 + (k / rings) * 0.26);
+        ctx.lineWidth = 1.15 * dpr;
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation = "source-over";
+    };
+    const loop = t => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+    size();
+    if (reduce) draw(4000);
+    else {
+      new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting && !running) { running = true; raf = requestAnimationFrame(loop); }
+        else if (!e.isIntersecting) { running = false; cancelAnimationFrame(raf); }
+      })).observe(cv);
+    }
+    window.addEventListener("resize", () => { size(); if (reduce) draw(4000); });
+    return { draw };
+  };
+  makeOrb($("#orb"), { level: t => 0.3 + 0.7 * Math.pow(Math.abs(Math.sin(t * 0.0019) * Math.sin(t * 0.0011 + 1.3)), 0.6) });
+
+  /* ---------- Statement word reveal ---------- */
+  const stmt = $("#statement-text");
+  let words = [];
+  if (stmt && !reduce) {
+    const split = (node, isQ) => {
+      Array.from(node.childNodes).forEach(ch => {
+        if (ch.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          ch.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const s = document.createElement("span"); s.className = "w" + (isQ ? " q" : ""); s.textContent = part; frag.appendChild(s);
+          });
+          ch.replaceWith(frag);
+        } else if (ch.nodeType === 1) { split(ch, isQ || ch.classList.contains("q")); }
+      });
+    };
+    split(stmt, false);
+    words = $$(".w", stmt);
+    stmt.classList.add("reveal-on");
+  }
+  const updateStatement = () => {
+    if (!words.length) return;
+    const r = stmt.getBoundingClientRect();
+    const p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.3), 0, 1);
+    const n = Math.round(p * words.length);
+    words.forEach((w, i) => w.classList.toggle("on", i < n));
+  };
+
+  /* ---------- Call demo ---------- */
+  const call = $("#call");
+  const lines = $$(".tx", call);
+  const nodes = $$(".wf .node", call);
+  const edges = $$(".wf .edge", call);
+  const list = $("#tx-list");
+  const win = $(".tx-window", call);
+  const clock = $("#call-clock");
+  const nowEl = $("#call-now span");
+  const prog = $("#call-progress");
+  const scrubCall = !reduce;
+  let curStep = -1;
+  const parse = s => (s || "").split(/\s+/).filter(Boolean);
+
+  const setStep = i => {
+    if (i === curStep) return;
+    curStep = i;
+    const seenN = new Set(), seenE = new Set();
+    lines.forEach((li, k) => {
+      li.classList.toggle("is-active", k === i);
+      li.classList.toggle("is-past", k < i);
+      li.classList.toggle("is-future", k > i);
+      if (k <= i) { parse(li.dataset.lit).forEach(n => seenN.add(n)); parse(li.dataset.edges).forEach(e => seenE.add(e)); }
+    });
+    const cur = lines[i];
+    const litN = new Set(parse(cur.dataset.lit)), litE = new Set(parse(cur.dataset.edges));
+    nodes.forEach(n => { const id = n.dataset.node; n.classList.toggle("is-lit", litN.has(id)); n.classList.toggle("is-seen", seenN.has(id) && !litN.has(id)); });
+    edges.forEach(e => { e.classList.toggle("is-lit", litE.has(e.id)); e.classList.toggle("is-seen", seenE.has(e.id) && !litE.has(e.id)); });
+    if (clock) clock.textContent = cur.dataset.clock || "";
+    if (nowEl) nowEl.textContent = cur.dataset.now || "";
+    if (prog) prog.style.setProperty("--p", ((i + 1) / lines.length * 100).toFixed(1) + "%");
+    if (call.classList.contains("is-scrub")) {
+      const target = cur.offsetTop + cur.offsetHeight / 2;
+      const ty = Math.round(win.clientHeight * 0.45 - target);
+      list.style.transform = `translateY(${ty}px)`;
+    }
+  };
+  const showAll = () => {
+    lines.forEach(li => li.classList.remove("is-active", "is-past", "is-future"));
+    nodes.forEach(n => { n.classList.add("is-seen"); n.classList.remove("is-lit"); });
+    edges.forEach(e => { e.classList.add("is-seen"); e.classList.remove("is-lit"); });
+    if (prog) prog.style.setProperty("--p", "100%");
+  };
+  const layoutCall = () => {
+    if (!call) return;
+    if (scrubCall) {
+      call.classList.add("is-scrub");
+      const stageH = $(".call-stage", call).offsetHeight;
+      call.style.height = Math.round(stageH + lines.length * vh * 0.42) + "px";
+      curStep = -1;
+    } else {
+      call.classList.remove("is-scrub");
+      call.style.height = "";
+      list.style.transform = "";
+      showAll();
+    }
+  };
+  const updateCall = () => {
+    if (!call || !call.classList.contains("is-scrub")) return;
+    const r = call.getBoundingClientRect();
+    const stage = $(".call-stage", call);
+    const top0 = hdrH() + 12;
+    const dist = r.height - stage.offsetHeight;
+    const p = clamp((top0 - r.top) / Math.max(1, dist), 0, 0.9999);
+    setStep(Math.floor(p * lines.length));
+  };
+
+  /* ---------- Use-case rail ---------- */
+  const rail = $("#rail"), track = $("#rail-track"), railVP = $("#rail-viewport");
+  let railDist = 0;
+  const layoutRail = () => {
+    if (!rail) return;
+    track.style.transform = "";
+    if (!reduce && wideMQ.matches) {
+      rail.classList.add("is-scrub");
+      railDist = Math.max(0, track.scrollWidth - railVP.clientWidth);
+      const stageH = $(".rail-stage", rail).offsetHeight;
+      rail.style.height = Math.round(stageH + railDist + vh * 0.2) + "px";
+    } else {
+      rail.classList.remove("is-scrub");
+      rail.style.height = "";
+      railDist = 0;
+    }
+  };
+  const updateRail = () => {
+    if (!rail || !rail.classList.contains("is-scrub")) return;
+    const r = rail.getBoundingClientRect();
+    const top0 = hdrH() + vh * 0.07;
+    const p = clamp((top0 - r.top) / Math.max(1, railDist), 0, 1);
+    track.style.transform = `translate3d(${(-p * railDist).toFixed(1)}px,0,0)`;
+  };
+
+  /* ---------- Hero parallax, meters, header ---------- */
+  const h1a = $(".h1a"), h1b = $(".h1b"), orbWrap = $("#orb-wrap"), hdr = $("#top-bar");
+  const stats = $$(".stat"), stepsFill = $("#steps-fill"), stepsEl = $("#steps");
+  const sectionP = el => { const r = el.getBoundingClientRect(); return clamp((vh - r.top) / (vh * 0.75), 0, 1); };
+  const updateMisc = () => {
+    const y = window.scrollY;
+    if (hdr) hdr.classList.toggle("is-scrolled", y > 8);
+    if (reduce) return;
+    if (y < vh * 1.4) {
+      if (h1a) h1a.style.transform = `translate3d(${(-y * 0.06).toFixed(1)}px,0,0)`;
+      if (h1b) h1b.style.transform = `translate3d(${(y * 0.09).toFixed(1)}px,0,0)`;
+      if (orbWrap) orbWrap.style.transform = `translate3d(0,${(y * 0.22).toFixed(1)}px,0) scale(${(1 + y * 0.0003).toFixed(4)})`;
+    }
+    stats.forEach((s, i) => s.style.setProperty("--fill", clamp(sectionP(s) * 1.25 - i * 0.08, 0, 1).toFixed(3)));
+    if (stepsEl && stepsFill) stepsFill.parentElement.style.setProperty("--fill", clamp((vh * 0.85 - stepsEl.getBoundingClientRect().top) / (stepsEl.offsetHeight + vh * 0.2), 0, 1).toFixed(3));
+  };
+  if (!reduce) { stats.forEach(s => s.style.setProperty("--fill", "0")); }
+
+  /* ---------- Scroll loop ---------- */
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => { ticking = false; updateStatement(); updateCall(); updateRail(); updateMisc(); });
+  };
+  const relayout = () => { vh = window.innerHeight; layoutCall(); layoutRail(); onScroll(); };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  let rT = 0;
+  window.addEventListener("resize", () => { clearTimeout(rT); rT = setTimeout(relayout, 120); });
+  if (wideMQ.addEventListener) wideMQ.addEventListener("change", relayout);
+  relayout();
+  if (call && call.classList.contains("is-scrub") && curStep < 0) setStep(0);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+
+  /* ---------- Talk to Sól (live ElevenLabs agent) ---------- */
+  const AGENT_ID = "agent_9901m41zb64ae718v9dmjfrg5ryn";
+  const TALK_URL = "https://elevenlabs.io/app/talk-to?agent_id=" + AGENT_ID;
+  const SDK_URL = "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.26.0/dist/lib.iife.js";
+  let embedded = true;
+  try { embedded = window.self !== window.top; } catch (e) { embedded = true; }
+  const talkBtn = $("#talk-btn"), talkLabel = $("#talk-btn-label"), talkStatus = $("#talk-status"), talkLog = $("#talk-log"), talkAlt = $("#talk-alt");
+  let convo = null, talkState = "idle", talkMode = "listening", level = 0;
+  makeOrb($("#talk-orb"), {
+    scale: 0.32,
+    level: t => {
+      let target = 0.12 + 0.08 * Math.sin(t * 0.0015);
+      if (convo && talkState === "live") {
+        let out = 0, inp = 0;
+        try { out = convo.getOutputVolume() || 0; inp = convo.getInputVolume() || 0; } catch (e) {}
+        target = talkMode === "speaking" ? 0.25 + Math.min(1, out * 2.2) : 0.12 + Math.min(0.7, inp * 1.6);
+      }
+      level += (target - level) * 0.18;
+      return level;
+    },
+    tint: () => (convo && talkState === "live" && talkMode === "listening") ? HUMAN : AGENT
+  });
+  const setTalk = (label, status, opts = {}) => {
+    if (label) talkLabel.textContent = label;
+    if (status !== undefined) talkStatus.textContent = status;
+    talkBtn.classList.toggle("is-live", !!opts.live);
+    if (opts.busy) talkBtn.setAttribute("aria-disabled", "true"); else talkBtn.removeAttribute("aria-disabled");
+  };
+  const clean = m => String(m || "").replace(/\[[^\]]{1,40}\]\s*/g, "").trim();
+  const addLine = (role, text) => {
+    text = clean(text); if (!text) return;
+    const hint = talkLog.querySelector(".hint"); if (hint) hint.remove();
+    const li = document.createElement("li"); li.className = role === "agent" ? "ag" : "me";
+    const who = document.createElement("span"); who.className = "who"; who.textContent = role === "agent" ? "Sól · AI" : "You";
+    li.append(who, document.createTextNode(text));
+    talkLog.appendChild(li); talkLog.scrollTop = talkLog.scrollHeight;
+  };
+  const loadSDK = () => new Promise((res, rej) => {
+    if (window.ElevenLabsClient) return res(window.ElevenLabsClient);
+    const sc = document.createElement("script"); sc.src = SDK_URL; sc.async = true;
+    sc.onload = () => window.ElevenLabsClient ? res(window.ElevenLabsClient) : rej(new Error("sdk"));
+    sc.onerror = () => rej(new Error("sdk"));
+    document.head.appendChild(sc);
+  });
+  const offerLink = msg => {
+    convo = null; talkState = "idle";
+    setTalk("Try again", msg);
+    talkAlt.innerHTML = 'Or <a href="' + TALK_URL + '" target="_blank" rel="noopener">talk to Sól on ElevenLabs</a> in a new tab.';
+  };
+  const startTalk = async () => {
+    talkState = "connecting"; setTalk("Connecting…", "Asking for your microphone…", { busy: true });
+    try {
+      const st = await navigator.mediaDevices.getUserMedia({ audio: true });
+      st.getTracks().forEach(tr => tr.stop());
+    } catch (e) { offerLink("Microphone access was blocked. Allow the microphone for this site and try again."); return; }
+    setTalk(null, "Connecting to Sól…", { busy: true });
+    try {
+      const EL = await loadSDK();
+      convo = await EL.Conversation.startSession({
+        agentId: AGENT_ID,
+        connectionType: "webrtc",
+        onConnect: () => { talkState = "live"; setTalk("End conversation", "Connected. Say hello!", { live: true }); },
+        onDisconnect: () => { convo = null; talkState = "idle"; talkMode = "listening"; setTalk("Talk again", "Conversation ended. Thanks for trying Sól!"); },
+        onError: m => { if (window.console) console.warn("Sól:", m); },
+        onModeChange: ({ mode }) => { talkMode = mode; if (talkState === "live") talkStatus.textContent = mode === "speaking" ? "Sól is speaking…" : "Listening…"; },
+        onMessage: ({ message, role, source }) => addLine(role || (source === "ai" ? "agent" : "user"), message)
+      });
+      if (talkState === "connecting") { talkState = "live"; setTalk("End conversation", "Connected. Say hello!", { live: true }); }
+    } catch (e) { offerLink("Sól couldn't connect just now."); }
+  };
+  if (talkBtn) {
+    if (embedded || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setTalk("Talk to Sól", "Opens a live conversation on ElevenLabs in a new tab");
+    } else {
+      talkBtn.addEventListener("click", e => {
+        e.preventDefault();
+        if (talkState === "live" && convo) { setTalk(null, "Ending…", { busy: true }); convo.endSession().catch(() => {}); }
+        else if (talkState === "idle") startTalk();
+      });
+    }
+  }
+
+  /* ---------- Estimator ---------- */
+  const fmtIS = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const fmtEN = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const inCalls = $("#in-calls"), inLen = $("#in-len"), inShare = $("#in-share"), inWage = $("#in-wage");
+  const calc = () => {
+    const calls = +inCalls.value, len = +inLen.value, share = +inShare.value / 100, wage = +inWage.value;
+    const resolved = calls * share;
+    const hours = resolved * (len + 1) / 60;
+    const value = hours * wage;
+    const minutes = resolved * len + (calls - resolved) * 1;
+    $("#out-calls").textContent = fmtEN(calls);
+    $("#out-len").textContent = (len % 1 ? len.toFixed(1) : len) + " min";
+    $("#out-share").textContent = Math.round(share * 100) + "%";
+    $("#out-wage").textContent = fmtIS(wage) + " kr.";
+    $("#res-hours").textContent = fmtEN(hours);
+    $("#res-calls").textContent = fmtEN(resolved) + " / month";
+    $("#res-value").textContent = fmtIS(value) + " kr. / month";
+    $("#res-cost").textContent = "≈ $" + fmtEN(minutes * 0.08) + " / month";
+  };
+  [inCalls, inLen, inShare, inWage].forEach(el => el && el.addEventListener("input", calc));
+  if (inCalls) calc();
+
+  /* ---------- Lead form ---------- */
+  const form = $("#lead-form"), sent = $("#lead-sent"), done = $("#lead-done"), pending = $("#lead-pending"), err = $("#form-error");
+  const NO_EMAIL = /@example\.com$/i.test(CONTACT_EMAIL);
+  const fallback = () => (NO_EMAIL ? pending : sent);
+  const summaryEl = $("#lead-summary"), mail = $("#lead-mail"), addr = $("#lead-addr"), copyMsg = $("#copy-msg");
+  if (addr) addr.textContent = CONTACT_EMAIL;
+  let summaryText = "";
+  if (form) {
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const name = $("#lead-name"), company = $("#lead-company"), email = $("#lead-email");
+      const ok = name.value.trim() && company.value.trim() && email.value.trim() && email.checkValidity();
+      if (!ok) { err.hidden = false; (name.value.trim() ? (company.value.trim() ? email : company) : name).focus(); return; }
+      err.hidden = true;
+      const lang = (form.querySelector("input[name=lang]:checked") || {}).value || "Icelandic";
+      summaryText = [
+        "Demo request for EKO",
+        "",
+        "Name: " + name.value.trim(),
+        "Company: " + company.value.trim(),
+        "Email: " + email.value.trim(),
+        "Phone: " + ($("#lead-phone").value.trim() || "–"),
+        "Industry: " + $("#lead-industry").value,
+        "Calls per week: " + $("#lead-volume").value,
+        "Demo language: " + lang,
+        "",
+        "Calls that take up our time:",
+        $("#lead-notes").value.trim() || "–"
+      ].join("\n");
+      summaryEl.textContent = summaryText;
+      mail.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Demo request: " + company.value.trim()) + "&body=" + encodeURIComponent(summaryText);
+      const show = panel => { form.hidden = true; panel.hidden = false; copyMsg.textContent = ""; const h = panel.querySelector("h3"); h.setAttribute("tabindex", "-1"); h.focus(); };
+      if (embedded) { show(fallback()); return; }
+      const btn = form.querySelector("button[type=submit]"); btn.disabled = true;
+      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(new FormData(form)).toString() })
+        .then(r => { btn.disabled = false; show(r.ok ? done : fallback()); })
+        .catch(() => { btn.disabled = false; show(fallback()); });
+    });
+  }
+  const selectSummary = () => { const rng = document.createRange(); rng.selectNodeContents(summaryEl); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rng); };
+  $("#lead-copy") && $("#lead-copy").addEventListener("click", () => {
+    const done = () => { copyMsg.textContent = "Copied. Paste it into an email to " + CONTACT_EMAIL + "."; };
+    const fail = () => { selectSummary(); copyMsg.textContent = "Select the text above and copy it."; };
+    try { navigator.clipboard.writeText(summaryText).then(done, fail); } catch (e) { fail(); }
+  });
+  const backToForm = () => { sent.hidden = true; pending.hidden = true; form.hidden = false; $("#lead-name").focus(); };
+  $("#lead-edit") && $("#lead-edit").addEventListener("click", backToForm);
+  $("#lead-back") && $("#lead-back").addEventListener("click", backToForm);
+})();
+</script>
+</body>
+</html>
